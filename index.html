@@ -39,7 +39,7 @@
             padding: 20px;
         }
 
-        .intro-box {
+        .intro-box, .card {
             background: #161b22;
             padding: 20px;
             border-radius: 10px;
@@ -47,28 +47,21 @@
             margin-bottom: 25px;
         }
 
-        .intro-box h2 {
-            margin: 0 0 10px 0;
-            color: #79c0ff;
-        }
-
-        .card {
-            background: #161b22;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #30363d;
-            margin-bottom: 20px;
-        }
-
-        h3 {
-            color: #58a6ff;
-        }
+        h2 { color: #79c0ff; }
+        h3 { color: #58a6ff; }
 
         img.project-img {
             width: 100%;
             border-radius: 10px;
             border: 2px solid #30363d;
             margin: 10px 0;
+        }
+
+        .img-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
         }
 
         a.download-btn {
@@ -79,7 +72,7 @@
             color: white;
             border-radius: 8px;
             text-decoration: none;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         a.download-btn:hover {
@@ -98,90 +91,104 @@
             color: #58a6ff;
             text-decoration: none;
         }
-
-        .note-section a:hover {
-            text-decoration: underline;
-        }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>Namaste 👋 | Welcome to TechRobotics-AR</h1>
-    </header>
 
-    <div class="container">
+<header>
+    <h1>Namaste 👋 | Welcome to TechRobotics-AR</h1>
+</header>
 
-        <!-- INTRO SECTION -->
-        <div class="intro-box">
-            <h2>👋 Hi, I'm Abhi Raj</h2>
-            <p>
-                👦 Robotics & Tech Enthusiast  
-                🎮 Game Developer  
-                💻 Learning Godot, Python & HTML  
-                🚀 Building cool science & robotics projects  
-                🛠 Every 30 days, a new project will be uploaded!  
-            </p>
-        </div>
+<div class="container">
 
-        <!-- PROJECT SECTION -->
-        <div class="card">
-            <h2>🌟 Our Projects</h2>
-
-            <!-- HOME SECURITY PROJECT -->
-            <h3>🔐 Home Security Alert System</h3>
-
-            <!-- IMAGE -->
-            <img src="house.png" alt="Home Security Project" class="project-img">
-
-            <p>
-                A smart home protection system that uses an Ultrasonic Sensor to detect movement.
-                When any person comes close to the door, the buzzer automatically rings 🔔  
-                Simple, powerful, and very useful for home safety ❤️.
-            </p>
-
-            <!-- PDF DOWNLOAD -->
-            <a href="Home Security Alert System.pdf" download class="download-btn">📄 Download PDF</a>
-
-            <br><br>
-
-            <!-- AGRICULTURE MACHINE -->
-            <h3>🚜 Multipurpose Agriculture Machine</h3>
-            <p>
-                One of our most advanced agriculture innovations!  
-                This machine can perform multiple farming tasks:
-                <br>• 🌱 Seed dropping  
-                <br>• 💦 Soil moisture detection  
-                <br>• 🧪 Automatic plant watering  
-                <br>• 🐞 Pesticide spraying  
-                <br>• 🚗 Robot movement system  
-                <br>• 🔔 Dry soil alert system  
-                A complete smart farming robot made using Arduino + sensors 🤖🌾  
-                Full code, circuit & instructions coming soon in 3 days!
-            </p>
-
-        </div>
-
-        <!-- NOTE SECTION -->
-        <div class="note-section">
-            <h3>📌 Want the Code or Step-by-Step Guide?</h3>
-
-            <p>👉 Need the code?<br>
-            Follow the YouTube channel  
-            <b><a href="https://youtube.com/@techrobotics-ar?si=8Q9IvusEf8E2JvzL" target="_blank">TechRobotics-AR</a></b> — the complete code is available there.</p>
-
-            <p>👉 Want the full detailed step-by-step guide?<br>
-            Get the <b>Premium Version</b> — it includes:</p>
-
-            <p>
-                ✔ Wiring diagram<br>
-                ✔ Full explanation<br>
-                ✔ How to build the model<br>
-                ✔ How to set up the sensors<br>
-                ✔ Bonus tips in English  
-            </p>
-        </div>
-
+    <!-- INTRO -->
+    <div class="intro-box">
+        <h2>👋 Hi, I'm Abhi Raj</h2>
+        <p>
+            👦 Robotics & Tech Enthusiast<br>
+            🎮 Game Developer<br>
+            💻 Learning Godot, Python & HTML<br>
+            🚀 Building science & robotics projects<br>
+            🛠 New project every 30 days
+        </p>
     </div>
+
+    <!-- PROJECTS -->
+    <div class="card">
+        <h2>🌟 Our Projects</h2>
+
+        <!-- HOME SECURITY -->
+        <h3>🔐 Home Security Alert System</h3>
+        <img src="house.png" class="project-img" alt="Home Security Project">
+        <p>
+            A smart home security system using sensors.
+            When someone comes near the door, the buzzer rings 🔔
+            Simple and useful for home safety ❤️.
+        </p>
+        <a href="Home Security Alert System.pdf" download class="download-btn">
+            📄 Download Home Security PDF
+        </a>
+
+        <br><br>
+
+        <!-- MULTIPURPOSE AGRICULTURE -->
+        <h3>🚜 Multipurpose Agriculture Machine</h3>
+
+        <p>
+            A smart farming robot designed to reduce farmer effort and increase efficiency 🌾🤖.
+            This robot can perform multiple agriculture tasks automatically.
+        </p>
+
+        <!-- 3 IMAGES -->
+        <div class="img-grid">
+            <img src="agri1.png" class="project-img" alt="Agriculture Robot Image 1">
+            <img src="agri2.png" class="project-img" alt="Agriculture Robot Image 2">
+            <img src="agri3.png" class="project-img" alt="Agriculture Robot Image 3">
+        </div>
+
+        <p>
+            🔹 Automatic watering using soil moisture sensor<br>
+            🔹 Seed dropping system<br>
+            🔹 Pesticide spraying mechanism<br>
+            🔹 Buzzer alert for dry soil<br>
+            🔹 Arduino-based smart control system
+        </p>
+
+        <!-- PDF -->
+        <a href="Multipurpose Agriculture Robot.pdf" download class="download-btn">
+            📄 Download Agriculture Robot PDF
+        </a>
+    </div>
+
+    <!-- NOTE -->
+    <div class="note-section">
+        <h3>📌 Want the Code or Step-by-Step Guide?</h3>
+
+        <p>
+            👉 Need the code?<br>
+            Follow the YouTube channel
+            <b>
+                <a href="https://youtube.com/@techrobotics-ar?si=8Q9IvusEf8E2JvzL" target="_blank">
+                    TechRobotics-AR
+                </a>
+            </b>
+        </p>
+
+        <p>
+            👉 Want the full detailed step-by-step guide?<br>
+            Get the <b>Premium Version</b> — includes:
+        </p>
+
+        <p>
+            ✔ Wiring diagram<br>
+            ✔ Full explanation<br>
+            ✔ Build steps<br>
+            ✔ Sensor setup<br>
+            ✔ Bonus tips in English
+        </p>
+    </div>
+
+</div>
 </body>
 </html>
