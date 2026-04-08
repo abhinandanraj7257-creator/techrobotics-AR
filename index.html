@@ -4,482 +4,1221 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TechRobotics-AR | Futuristic Portfolio</title>
-<!-- SEO & SOCIAL PREVIEW -->
 <meta property="og:title" content="TechRobotics-AR">
 <meta property="og:description" content="Futuristic robotics, Arduino & smart farming projects by TechRobotics-AR.">
 <meta property="og:image" content="https://abhinandanraj7257-creator.github.io/techrobotics-AR/logo.png">
 <meta property="og:url" content="https://abhinandanraj7257-creator.github.io/techrobotics-AR/">
 <meta property="og:type" content="website">
-
-<!-- Twitter / X -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="TechRobotics-AR">
 <meta name="twitter:description" content="Robotics • Arduino • Smart Farming Projects">
 <meta name="twitter:image" content="https://abhinandanraj7257-creator.github.io/techrobotics-AR/logo.png">
-
-
-<link rel="icon" type="image/png" href="logo.png"
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" href="logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <style>
-:root{
-  --bg:#05070f;
-  --glass:rgba(255,255,255,0.08);
-  --border:rgba(255,255,255,0.18);
-  --primary:#4da3ff;
-  --neon:#00ffd5;
-  --text:#eaf0ff;
-  --muted:#9aa4c7;
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface2: #1a1a1a;
+  --border: #2a2a2a;
+  --accent: #ff6b35;
+  --accent2: #ffcc02;
+  --cyan: #00e5ff;
+  --text: #f0f0f0;
+  --muted: #888;
+  --card-bg: #141414;
 }
 
-/* ===== GLOBAL ===== */
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:'Poppins',sans-serif;
-  background:
-    radial-gradient(circle at 20% 10%,#14214a,transparent 40%),
-    radial-gradient(circle at 80% 80%,#003333,transparent 40%),
-    var(--bg);
-  color:var(--text);
-  overflow-x:hidden;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  cursor: none;
 }
 
-/* ===== HEADER ===== */
-header{
-  text-align:center;
-  padding:50px 20px;
-  position:relative;
+/* ===== CUSTOM CURSOR ===== */
+.cursor {
+  position: fixed;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  mix-blend-mode: difference;
 }
-header h1{
-  font-family:'Orbitron',sans-serif;
-  font-size:42px;
-  background:linear-gradient(90deg,var(--primary),var(--neon));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
+.cursor-trail {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: transform 0.18s ease, width 0.3s, height 0.3s;
+  opacity: 0.5;
 }
-header::after{
-  content:"";
-  position:absolute;
-  inset:auto 0 0 0;
-  height:1px;
-  background:linear-gradient(90deg,transparent,var(--neon),transparent);
+body:hover .cursor { display: block; }
+
+/* ===== NOISE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1000;
 }
 
-/* ===== CONTAINER ===== */
-.container{
-  width:92%;
-  max-width:1100px;
-  margin:auto;
-  padding-bottom:80px;
+/* ===== TOP BAR ===== */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: rgba(10,10,10,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 13px;
+  color: var(--accent);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.topbar-nav {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+.topbar-nav a {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+.topbar-nav a:hover { color: var(--accent); }
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 60px 80px;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ===== GLASS CARDS ===== */
-.glass{
-  background:var(--glass);
-  border:1px solid var(--border);
-  border-radius:22px;
-  padding:30px;
-  margin:50px 0;
-  backdrop-filter:blur(16px);
-  box-shadow:
-    0 0 0 transparent,
-    inset 0 0 0 transparent;
-  transition:.6s cubic-bezier(.22,1,.36,1);
-  transform:translateY(60px) scale(.95);
-  opacity:0;
-  position:relative;
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.3;
+  animation: gridMove 20s linear infinite;
 }
 
-.glass::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:22px;
-  background:linear-gradient(120deg,transparent,var(--neon),transparent);
-  opacity:.15;
-  pointer-events:none;
+@keyframes gridMove {
+  0% { background-position: 0 0; }
+  100% { background-position: 60px 60px; }
 }
 
-.glass.show{
-  transform:none;
-  opacity:1;
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.6),
-    inset 0 0 30px rgba(0,255,213,.15);
+.hero-orb {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  right: -100px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(255,107,53,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: orbPulse 4s ease-in-out infinite;
 }
 
-/* ===== TEXT ===== */
-h2{
-  font-size:30px;
-  color:var(--primary);
-}
-h3{
-  color:var(--neon);
-  margin-top:35px;
-}
-p{
-  color:var(--muted);
-  line-height:1.8;
+.hero-orb2 {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  left: -50px;
+  bottom: -50px;
+  background: radial-gradient(circle, rgba(0,229,255,0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: orbPulse 6s ease-in-out infinite reverse;
 }
 
-/* ===== IMAGES ===== */
-.project-img{
-  width:100%;
-  border-radius:18px;
-  margin:18px 0;
-  border:1px solid var(--border);
-  box-shadow:0 10px 40px rgba(0,0,0,.5);
+@keyframes orbPulse {
+  0%, 100% { transform: translateY(-50%) scale(1); }
+  50% { transform: translateY(-50%) scale(1.1); }
 }
 
-/* ===== GRID ===== */
-.img-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:18px;
+.hero-tag {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeUp 0.8s ease both;
+}
+.hero-tag::before {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
 }
 
-/* ===== BUTTONS ===== */
-.download-btn{
-  display:inline-block;
-  padding:13px 26px;
-  margin-top:14px;
-  border-radius:40px;
-  text-decoration:none;
-  font-size:14px;
-  color:white;
-  border:1px solid var(--border);
-  background:linear-gradient(135deg,rgba(255,255,255,.12),rgba(255,255,255,.04));
-  backdrop-filter:blur(10px);
-  transition:.4s ease;
+.hero-name {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(52px, 8vw, 110px);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -3px;
+  margin-bottom: 8px;
+  animation: fadeUp 0.8s 0.1s ease both;
 }
 
-.download-btn:hover{
-  transform:translateY(-4px) scale(1.05);
-  background:linear-gradient(135deg,var(--primary),var(--neon));
-  color:#000;
-  box-shadow:0 0 25px var(--neon);
+.hero-name .highlight {
+  -webkit-text-stroke: 2px var(--accent);
+  color: transparent;
+}
+
+.hero-subtitle {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(28px, 4vw, 52px);
+  font-weight: 700;
+  color: var(--muted);
+  margin-bottom: 40px;
+  animation: fadeUp 0.8s 0.2s ease both;
+}
+
+.hero-desc {
+  max-width: 520px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 50px;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 50px;
+  animation: fadeUp 0.8s 0.35s ease both;
+}
+
+.pill {
+  padding: 8px 18px;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  transition: all 0.3s;
+}
+.pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.hero-cta {
+  display: flex;
+  gap: 16px;
+  animation: fadeUp 0.8s 0.4s ease both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: var(--accent);
+  color: #0a0a0a;
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s;
+  border: none;
+  cursor: none;
+}
+.btn-primary:hover {
+  background: var(--accent2);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(255,107,53,0.4);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  background: transparent;
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+  cursor: none;
+}
+.btn-secondary:hover {
+  border-color: var(--text);
+  transform: translateY(-2px);
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px;
+  left: 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  animation: fadeUp 0.8s 0.5s ease both;
+}
+
+.scroll-line {
+  width: 60px;
+  height: 1px;
+  background: var(--muted);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-line::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: var(--accent);
+  animation: scrollAnim 2s ease-in-out infinite;
+}
+@keyframes scrollAnim {
+  0% { left: -100%; }
+  50% { left: 0; }
+  100% { left: 100%; }
+}
+
+/* ===== MARQUEE ===== */
+.marquee-wrapper {
+  background: var(--accent);
+  padding: 14px 0;
+  overflow: hidden;
+  position: relative;
+}
+.marquee-track {
+  display: flex;
+  gap: 60px;
+  animation: marquee 20s linear infinite;
+  white-space: nowrap;
+}
+.marquee-track span {
+  font-family: 'Space Mono', monospace;
+  font-size: 12px;
+  color: #0a0a0a;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.marquee-track .dot {
+  color: rgba(0,0,0,0.4);
+  font-size: 20px;
+  line-height: 1;
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== SECTION ===== */
+.section {
+  padding: 100px 60px;
+}
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-label::before {
+  content: '';
+  width: 30px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(36px, 5vw, 70px);
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 60px;
+}
+
+/* ===== ABOUT SECTION ===== */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: start;
+}
+
+.about-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.stat-box {
+  background: var(--card-bg);
+  padding: 30px;
+  transition: background 0.3s;
+}
+.stat-box:hover { background: var(--surface2); }
+.stat-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 42px;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.about-text p {
+  color: var(--muted);
+  line-height: 1.9;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.skills-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 30px;
+}
+.skill-tag {
+  padding: 6px 14px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--cyan);
+  letter-spacing: 1px;
+}
+
+/* ===== PROJECTS ===== */
+.projects-grid {
+  display: grid;
+  gap: 2px;
+  grid-template-columns: 1fr 1fr;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.project-card {
+  background: var(--card-bg);
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s;
+}
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--accent);
+  transition: height 0.4s ease;
+}
+.project-card:hover::before { height: 100%; }
+.project-card:hover { background: var(--surface2); }
+
+.project-card.featured {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 40px;
+  align-items: start;
+}
+
+.project-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+.project-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+}
+.project-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+.project-img {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  display: block;
+  margin: 20px 0;
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+.project-img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.ptag {
+  padding: 4px 10px;
+  background: rgba(255,107,53,0.1);
+  border: 1px solid rgba(255,107,53,0.3);
+  border-radius: 4px;
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--accent);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.project-links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.plink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  cursor: none;
+}
+.plink:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+.plink.green { color: #4ade80; border-color: rgba(74,222,128,0.3); }
+.plink.green:hover { border-color: #4ade80; background: rgba(74,222,128,0.05); }
+.plink.blue { color: var(--cyan); border-color: rgba(0,229,255,0.3); }
+.plink.blue:hover { border-color: var(--cyan); background: rgba(0,229,255,0.05); }
+.plink.red { color: #ff4444; border-color: rgba(255,68,68,0.3); }
+.plink.red:hover { border-color: #ff4444; background: rgba(255,68,68,0.05); }
+
+.project-divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ===== HIGHLIGHT CARD ===== */
+.highlight-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 50px;
+  position: relative;
+  overflow: hidden;
+  margin: 60px 0;
+}
+.highlight-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,107,53,0.05) 0%, transparent 50%);
+  pointer-events: none;
+}
+.highlight-card .corner-accent {
+  position: absolute;
+  top: 0; right: 0;
+  width: 120px; height: 120px;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  border-radius: 0 0 0 20px;
+  opacity: 0.4;
+}
+
+/* ===== TICKER ===== */
+.ticker-row {
+  display: flex;
+  gap: 2px;
+  margin: 80px 0 0;
+}
+.ticker-box {
+  flex: 1;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  text-align: center;
+  transition: all 0.3s;
+}
+.ticker-box:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+}
+.ticker-icon {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+.ticker-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 /* ===== FOOTER ===== */
-.note-section{
-  text-align:center;
-  margin-top:80px;
-  padding-top:40px;
-  border-top:1px solid var(--border);
+footer {
+  border-top: 1px solid var(--border);
+  padding: 60px;
 }
-.note-section a{
-  color:var(--primary);
-  text-decoration:none;
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.footer-brand {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+.footer-brand span { color: var(--accent); }
+.footer-tagline {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  margin-top: 8px;
+}
+.footer-links {
+  display: flex;
+  gap: 12px;
+}
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+  cursor: none;
+}
+.footer-link:hover {
+  color: var(--text);
+  border-color: var(--accent);
+}
+.footer-copy {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 2px;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ===== BRAINFLY SPECIAL ===== */
+.brainfly-card {
+  background: linear-gradient(135deg, #0a0a0a 0%, #141422 100%);
+  border: 1px solid rgba(77,163,255,0.3);
+  border-radius: 20px;
+  padding: 50px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3px;
+  grid-column: span 2;
+}
+.brainfly-card::before {
+  content: 'AI';
+  position: absolute;
+  right: -20px; top: -30px;
+  font-family: 'Syne', sans-serif;
+  font-size: 200px;
+  font-weight: 800;
+  color: rgba(77,163,255,0.04);
+  line-height: 1;
+}
+.brainfly-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(77,163,255,0.1);
+  border: 1px solid rgba(77,163,255,0.3);
+  border-radius: 100px;
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: #4da3ff;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+.brainfly-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  background: #4da3ff;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
 }
 
 /* ===== MOBILE ===== */
-@media(max-width:600px){
-  header h1{font-size:30px}
-}
-  /* ===== SCROLL DOWN TEXT ===== */
-.scroll-text{
-  margin-top:25px;
-  font-size:14px;
-  color:#9aa4c7;
-  animation:float 2s infinite ease-in-out;
-  text-align:center;
-}
-
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(6px); }
-  100% { transform: translateY(0px); }
+@media (max-width: 768px) {
+  .hero { padding: 100px 24px 60px; }
+  .section { padding: 60px 24px; }
+  .topbar { padding: 16px 24px; }
+  .topbar-nav { display: none; }
+  .hero-cta { flex-direction: column; }
+  .about-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+  .brainfly-card { grid-column: span 1; }
+  .footer-inner { flex-direction: column; text-align: center; }
+  .footer-links { flex-wrap: wrap; justify-content: center; }
+  .ticker-row { flex-wrap: wrap; }
+  .hero-scroll { left: 24px; }
 }
 </style>
 </head>
-
 <body>
 
-<header>
-  <h1>TechRobotics-AR</h1>
-  <p>⚡ Futuristic Robotics & Technology Projects</p>
-</header>
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-trail" id="cursorTrail"></div>
 
-<div class="container">
+<!-- TOP BAR -->
+<nav class="topbar">
+  <div class="topbar-logo">Abhi Raj</div>
+  <ul class="topbar-nav">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="https://youtube.com/@techrobotics-ar" target="_blank">YouTube</a></li>
+  </ul>
+</nav>
 
-<!-- INTRO -->
-<div class="glass">
-  <h2>👋 Hi, I'm Abhi Raj</h2>
-  <p>
-    🤖 Robotics Innovator<br>
-    🎮 Game Developer<br>
-    💻 Python • Arduino • Web Tech<br>
-    🚀 One new project every 30 days
-  </p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb"></div>
+  <div class="hero-orb2"></div>
 
-  <a href="https://youtube.com/@techrobotics-ar"
-     target="_blank"
-     class="download-btn"
-     style="background:#ff0000;">
-     ▶ Subscribe on YouTube
-  </a>
-<p class="scroll-text">
-   ⬇ Scroll down to explore my projects
-</p>
-</div>
-<!-- 🧠 BRAINFY AI PROJECT -->
-<h3>🧠 BrainFly AI App</h3>
-
-<img src="ai.png" class="project-img">
-
-<p>
-  BrainFly AI is an intelligent AI-powered learning assistant 🤖
-  designed to help students understand concepts quickly and easily.
-  It provides smart explanations, fast answers, and interactive support.
-</p>
-
-<a href="https://brainfly-ai.vercel.app/"
-   target="_blank"
-   class="download-btn"
-   style="background:linear-gradient(135deg,#4da3ff,#00ffd5);">
-   🚀 explore BrainFly AI
-</a>
-<hr>
-
-<!-- 📡 ULTRASONIC RADAR PROJECT -->
-<h3>📡 Ultrasonic Radar System</h3>
-
-<p>
-A radar system built using <b>Arduino UNO</b>, <b>HC-SR04 Ultrasonic Sensor</b>, 
-and <b>Servo Motor</b>. The system scans the surroundings by rotating the sensor 
-and detects objects using ultrasonic waves. The data is visualized on a computer 
-screen as a radar interface using Processing software 🖥️.
-</p>
-
-<div class="img-grid">
-  <img src="radar1.png" class="project-img">
-</div>
-
-<a href="radar_project.pdf"
-   download
-   class="download-btn"
-   style="background:#238636;">
-   📄 Download Project PDF
-</a>
-
-<a href="https://1drv.ms/u/c/6c64a13747189eff/IQDyAGwZ72C7QqgoQIh_qEajAWD6X_DwWPNpH7MOjNzq7TE?e=sUzjWv"
-   target="_blank"
-   class="download-btn"
-   style="background:#1f6feb;">
-   💻 Arduino Code
-</a>
-<hr>
-
-<!-- PROJECTS -->
-<div class="glass">
-<h2>🌟 Featured Projects</h2>
-  
-  <!-- 🔐 BLUETOOTH DOOR LOCK PROJECT -->
-<h3>🔐 Automatic Bluetooth Door System</h3>
-
-<p>
-Smart door locking system using <b>Arduino UNO</b>, <b>Servo Motor</b> and
-<b>HC-05 Bluetooth Module</b>. The door can be controlled wirelessly
-through a mobile phone via Bluetooth 📱. By sending commands like
-<b>"open"</b> or <b>"close"</b>, the servo motor automatically unlocks
-or locks the door. This project demonstrates a simple and practical
-example of <b>home automation using wireless technology</b>.
-</p>
-
-<div class="img-grid">
-<img src="bluetooth.png" class="project-img">
-<img src="bluetoohh.png" class="project-img">
-</div>
-
-<a href="https://1drv.ms/b/c/6c64a13747189eff/IQBlRbdEpXXwRbJdMN-1rct3AdI8V0YCpmdx27qiKhoczTc?e=7UvGOc"
-target="_blank"
-class="download-btn"
-style="background:#238636;">
-📄 Download Project PDF
-</a>
-
-<a href="https://1drv.ms/u/c/6c64a13747189eff/IQAnVm5VJx0wS6e6T_KApJx-AZLQYYNdDHKTVw4UGDJKcp4?e=55HL2Z"
-target="_blank"
-class="download-btn"
-style="background:#1f6feb;">
-💻 Arduino Code
-</a>
-
-<hr>
-<hr>  
-  
-  <!-- 🚰 TOUCHLESS WATER TAP -->
-  <h3>🚰 Touchless Water Tap System</h3>
-  <img src="touchless_tap.png" class="project-img">
-  <p>
-    Automatic sensor-based water tap system that saves water 💧
-    and improves hygiene using IR sensor & Arduino.
-  </p>
-
-  <a href="https://youtu.be/MaAcTUv1g_Q"
-     target="_blank"
-     class="download-btn"
-     style="background:#ff0000;">
-     ▶ Watch Video
-  </a>
-
-  <a href="https://1drv.ms/b/c/6c64a13747189eff/IQAjlUif7TqSTJoMiO5zM8noAV6qVVIOGDEf3bA7gwiXVx0?e=QcdZPg"
-     target="_blank"
-     class="download-btn"
-     style="background:#238636;">
-     📄 Download PDF
-  </a>
-
-  <a href="https://1drv.ms/f/c/6c64a13747189eff/IgClklcYq9WnTrQXvBP2W47oAcm6u4zvfxV4tK3_-GnqK2w?e=kUeykm"
-     target="_blank"
-     class="download-btn"
-     style="background:#1f6feb;">
-     💻 Arduino Code
-  </a>
-  
-  <hr>
-
-<!-- 🌱 SMART IRRIGATION SYSTEM -->
-<h3>🌱 Smart Irrigation System (Arduino Project)</h3>
-
-<p>
-  Automatic irrigation system 🌾💧 using Arduino and soil moisture sensor.
-  The system automatically turns the water pump ON when soil is dry
-  and OFF when soil becomes wet, helping to save water and reduce
-  manual effort.
-</p>
-
-<div class="img-grid">
-  <img src="irri1.png" class="project-img">
-  <img src="irri2.png" class="project-img">
-  <img src="irri3.png" class="project-img">
-</div>
-
-<a href="irrigation.pdf"
-   download
-   class="download-btn"
-   style="background:#238636;">
-   📄 Download Project PDF
-</a>
-
-<a href="https://1drv.ms/u/c/6c64a13747189eff/IQApQvnpx_I-RJbgmVglEx-IAVLOeZrr-YmlFfAYOTy8iic?e=jogl13"
-   target="_blank"
-   class="download-btn"
-   style="background:#1f6feb;">
-   💻 Arduino Code
-</a>
-
-
-  <!-- 🔐 HOME SECURITY -->
-  <h3>🔐 Home Security Alert System</h3>
-  <img src="house.png" class="project-img">
-  <p>
-    Smart home security system that triggers a buzzer 🔔
-    when motion is detected near the door.
-  </p>
-
-  <a href="Home Security Alert System.pdf"
-     download
-     class="download-btn"
-     style="background:#238636;">
-     📄 Download PDF
-  </a>
-
-  <a href="https://1drv.ms/u/c/6c64a13747189eff/IQBe9RA75CmuR7En3GHYFHFkAe3RTE5THuLBZBPQkoAOZXk?e=08QI70"
-     target="_blank"
-     class="download-btn"
-     style="background:#1f6feb;">
-     💻 Arduino Code
-  </a>
-
-  <hr>
-
-  <!-- 🗑️ SMART DUSTBIN -->
-  <h3>🗑️ Smart Dustbin (Arduino Project)</h3>
-  <img src="smart_dustbin.png" class="project-img">
-  <p>
-    Touch-free smart dustbin using ultrasonic sensor
-    and servo motor 🤖 for better hygiene.
-  </p>
-
-  <a href="Smart_Dustbin_Project.pdf"
-     download
-     class="download-btn"
-     style="background:#238636;">
-     📄 Download PDF
-  </a>
-
-  <a href="https://1drv.ms/f/c/6c64a13747189eff/IgAo43cOTgzwS50f4JP4ZUKnAZuGzzMhV5MrLrL41R41744?e=K0DgAR"
-     target="_blank"
-     class="download-btn"
-     style="background:#1f6feb;">
-     💻 Arduino Code
-  </a>
-
-  <hr>
-
-  <!-- 🚜 AGRICULTURE ROBOT -->
-  <h3>🚜 Multipurpose Agriculture Robot</h3>
-  <p>
-    Smart farming robot 🌾🤖 that performs seed sowing,
-    watering and pesticide spraying automatically.
-  </p>
-
-  <div class="img-grid">
-    <img src="agri1.png" class="project-img">
-    <img src="agri2.png" class="project-img">
-    <img src="agri3.png" class="project-img">
+  <div style="position:relative; z-index:2;">
+    <div class="hero-tag">Portfolio 2025</div>
+    <h1 class="hero-name">
+      TECHROBOTICS<br>
+      <span class="highlight">-AR</span>
+    </h1>
+    <p class="hero-subtitle">Robotics Engineer</p>
+    <p class="hero-desc">
+      Building intelligent machines and Arduino-powered systems
+      that solve real-world problems — one project every 30 days.
+    </p>
+    <div class="hero-pills">
+      <div class="pill">🤖 Robotics</div>
+      <div class="pill">⚡ Arduino</div>
+      <div class="pill">🎮 Game Dev</div>
+      <div class="pill">🌾 Smart Farming</div>
+      <div class="pill">🐍 Python</div>
+    </div>
+    <div class="hero-cta">
+      <a href="https://youtube.com/@techrobotics-ar" target="_blank" class="btn-primary">▶ YouTube Channel</a>
+      <a href="#projects" class="btn-secondary">View Projects ↓</a>
+    </div>
   </div>
 
-  <a href="Multipurpose Agriculture Robot.pdf"
-     download
-     class="download-btn"
-     style="background:#238636;">
-     📄 Download Project PDF
-  </a>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrapper">
+  <div class="marquee-track">
+    <span>ROBOTICS</span><span class="dot">✦</span>
+    <span>ARDUINO</span><span class="dot">✦</span>
+    <span>SMART FARMING</span><span class="dot">✦</span>
+    <span>AUTOMATION</span><span class="dot">✦</span>
+    <span>PYTHON</span><span class="dot">✦</span>
+    <span>GAME DEV</span><span class="dot">✦</span>
+    <span>IOT PROJECTS</span><span class="dot">✦</span>
+    <span>ROBOTICS</span><span class="dot">✦</span>
+    <span>ARDUINO</span><span class="dot">✦</span>
+    <span>SMART FARMING</span><span class="dot">✦</span>
+    <span>AUTOMATION</span><span class="dot">✦</span>
+    <span>PYTHON</span><span class="dot">✦</span>
+    <span>GAME DEV</span><span class="dot">✦</span>
+    <span>IOT PROJECTS</span><span class="dot">✦</span>
+  </div>
 </div>
 
-<!-- NOTE -->
-<div class="note-section">
-  <h3>🚀 More futuristic projects coming soon</h3>
-  <p>
-    Subscribe 👉
-    <a href="https://youtube.com/@techrobotics-ar" target="_blank">
-      TechRobotics-AR
-    </a>
-  </p>
-  <br><br>
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="section-label reveal">About Me</div>
+  <div class="section-title reveal">Engineer.<br>Creator.<br>Innovator.</div>
 
-<a href="https://github.com/abhiraj23350-droid"
-   target="_blank"
-   class="download-btn"
-   style="background:#24292e;">
-   💻 Visit My GitHub
-</a>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm Abhi Raj — a robotics innovator and maker based in India.
+        I design and build projects at the intersection of hardware and software,
+        from Arduino-based automation systems to smart robots.
+      </p>
+      <p>
+        Every project I build is aimed at solving a real problem — whether
+        that's conserving water, securing homes, or helping farmers do more with less.
+        My goal is one finished project every 30 days, shipped and shared with the world.
+      </p>
+      <div class="skills-list">
+        <span class="skill-tag">Arduino</span>
+        <span class="skill-tag">Python</span>
+        <span class="skill-tag">C++</span>
+        <span class="skill-tag">Processing</span>
+        <span class="skill-tag">HTML/CSS</span>
+        <span class="skill-tag">IoT</span>
+        <span class="skill-tag">Servo Motors</span>
+        <span class="skill-tag">Sensors</span>
+      </div>
+    </div>
+    <div class="about-stats reveal reveal-delay-2">
+      <div class="stat-box">
+        <div class="stat-num">7+</div>
+        <div class="stat-label">Projects Built</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">30</div>
+        <div class="stat-label">Days/Project</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Open Source</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Ideas Left</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-<a href="https://www.linkedin.com/in/techrobotics-ar-969489399"
-   target="_blank"
-   class="download-btn"
-   style="background:#0077b5;">
-   🔗 Connect on LinkedIn
-</a>
-</div>
-  <!-- ===== SCROLL REVEAL ANIMATION ===== -->
+<!-- PROJECTS -->
+<section class="section" id="projects">
+  <div class="section-label reveal">Featured Work</div>
+  <div class="section-title reveal">Projects<br>& Builds</div>
+
+  <div class="projects-grid reveal">
+
+    <!-- BRAINFLY AI -->
+    <div class="brainfly-card">
+      <div class="brainfly-badge">LIVE PROJECT</div>
+      <div class="project-num">MEET MY AI</div>
+      <div class="project-title" style="font-size:28px;">🧠 BrainFly AI App</div>
+      <p class="project-desc">
+        An intelligent AI-powered learning assistant designed to help students
+        understand concepts quickly. Provides smart explanations, fast answers,
+        and interactive support — built to make learning effortless.
+      </p>
+      <div class="project-tags">
+        <span class="ptag" style="color:#4da3ff;border-color:rgba(77,163,255,0.3);background:rgba(77,163,255,0.08);">AI</span>
+        <span class="ptag" style="color:#4da3ff;border-color:rgba(77,163,255,0.3);background:rgba(77,163,255,0.08);">Web App</span>
+        <span class="ptag" style="color:#4da3ff;border-color:rgba(77,163,255,0.3);background:rgba(77,163,255,0.08);">Education</span>
+      </div>
+      <a href="https://brainfly-ai.vercel.app/" target="_blank" class="plink blue">🚀 Explore BrainFly AI →</a>
+    </div>
+
+    <!-- RADAR -->
+    <div class="project-card">
+      <div class="project-num">01</div>
+      <div class="project-title">📡 Ultrasonic Radar System</div>
+      <div class="project-tags">
+        <span class="ptag">Arduino UNO</span>
+        <span class="ptag">HC-SR04</span>
+        <span class="ptag">Servo</span>
+        <span class="ptag">Processing</span>
+      </div>
+      <img src="radar1.png" class="project-img" alt="Ultrasonic Radar">
+      <p class="project-desc">
+        A radar system that scans surroundings by rotating an ultrasonic sensor
+        and visualizes detected objects as a real-time radar display in Processing software.
+      </p>
+      <div class="project-links">
+        <a href="radar_project.pdf" download class="plink green">📄 PDF</a>
+        <a href="https://1drv.ms/u/c/6c64a13747189eff/IQDyAGwZ72C7QqgoQIh_qEajAWD6X_DwWPNpH7MOjNzq7TE?e=sUzjWv" target="_blank" class="plink blue">💻 Code</a>
+      </div>
+    </div>
+
+    <!-- BLUETOOTH DOOR -->
+    <div class="project-card">
+      <div class="project-num">02</div>
+      <div class="project-title">🔐 Bluetooth Door Lock</div>
+      <div class="project-tags">
+        <span class="ptag">Arduino UNO</span>
+        <span class="ptag">HC-05</span>
+        <span class="ptag">Servo</span>
+        <span class="ptag">Home Automation</span>
+      </div>
+      <img src="bluetooth.png" class="project-img" alt="Bluetooth Door">
+      <p class="project-desc">
+        Smart door locking system controlled wirelessly via Bluetooth from a mobile phone.
+        Send "open" or "close" commands to lock/unlock the door automatically.
+      </p>
+      <div class="project-links">
+        <a href="https://1drv.ms/b/c/6c64a13747189eff/IQBlRbdEpXXwRbJdMN-1rct3AdI8V0YCpmdx27qiKhoczTc?e=7UvGOc" target="_blank" class="plink green">📄 PDF</a>
+        <a href="https://1drv.ms/u/c/6c64a13747189eff/IQAnVm5VJx0wS6e6T_KApJx-AZLQYYNdDHKTVw4UGDJKcp4?e=55HL2Z" target="_blank" class="plink blue">💻 Code</a>
+      </div>
+    </div>
+
+    <!-- TOUCHLESS TAP -->
+    <div class="project-card">
+      <div class="project-num">03</div>
+      <div class="project-title">🚰 Touchless Water Tap</div>
+      <div class="project-tags">
+        <span class="ptag">Arduino</span>
+        <span class="ptag">IR Sensor</span>
+        <span class="ptag">Hygiene</span>
+      </div>
+      <img src="touchless_tap.png" class="project-img" alt="Touchless Tap">
+      <p class="project-desc">
+        Automatic sensor-based water tap that saves water and improves hygiene.
+        The tap activates only when hands are detected using an IR sensor.
+      </p>
+      <div class="project-links">
+        <a href="https://youtu.be/MaAcTUv1g_Q" target="_blank" class="plink red">▶ Video</a>
+        <a href="https://1drv.ms/b/c/6c64a13747189eff/IQAjlUif7TqSTJoMiO5zM8noAV6qVVIOGDEf3bA7gwiXVx0?e=QcdZPg" target="_blank" class="plink green">📄 PDF</a>
+        <a href="https://1drv.ms/f/c/6c64a13747189eff/IgClklcYq9WnTrQXvBP2W47oAcm6u4zvfxV4tK3_-GnqK2w?e=kUeykm" target="_blank" class="plink blue">💻 Code</a>
+      </div>
+    </div>
+
+    <!-- SMART IRRIGATION -->
+    <div class="project-card featured">
+      <div>
+        <div class="project-num">04</div>
+        <div class="project-title">🌱 Smart Irrigation System</div>
+        <div class="project-tags">
+          <span class="ptag">Arduino</span>
+          <span class="ptag">Soil Sensor</span>
+          <span class="ptag">Water Pump</span>
+          <span class="ptag">Agriculture</span>
+        </div>
+        <p class="project-desc">
+          Automatic irrigation that reads soil moisture and activates a water pump
+          only when the soil is dry. Saves water and removes the need for manual
+          intervention in farming — a real smart farming solution.
+        </p>
+        <div class="project-links">
+          <a href="irrigation.pdf" download class="plink green">📄 Download PDF</a>
+          <a href="https://1drv.ms/u/c/6c64a13747189eff/IQApQvnpx_I-RJbgmVglEx-IAVLOeZrr-YmlFfAYOTy8iic?e=jogl13" target="_blank" class="plink blue">💻 Arduino Code</a>
+        </div>
+      </div>
+      <div>
+        <img src="irri1.png" class="project-img" alt="Smart Irrigation">
+      </div>
+    </div>
+
+    <!-- HOME SECURITY -->
+    <div class="project-card">
+      <div class="project-num">05</div>
+      <div class="project-title">🔐 Home Security Alert</div>
+      <div class="project-tags">
+        <span class="ptag">Arduino</span>
+        <span class="ptag">Motion Sensor</span>
+        <span class="ptag">Buzzer</span>
+      </div>
+      <img src="house.png" class="project-img" alt="Home Security">
+      <p class="project-desc">
+        Smart security system that triggers an alarm buzzer when motion
+        is detected near the door. Simple, effective home protection.
+      </p>
+      <div class="project-links">
+        <a href="Home Security Alert System.pdf" download class="plink green">📄 PDF</a>
+        <a href="https://1drv.ms/u/c/6c64a13747189eff/IQBe9RA75CmuR7En3GHYFHFkAe3RTE5THuLBZBPQkoAOZXk?e=08QI70" target="_blank" class="plink blue">💻 Code</a>
+      </div>
+    </div>
+
+    <!-- SMART DUSTBIN -->
+    <div class="project-card">
+      <div class="project-num">06</div>
+      <div class="project-title">🗑️ Smart Dustbin</div>
+      <div class="project-tags">
+        <span class="ptag">Arduino</span>
+        <span class="ptag">Ultrasonic</span>
+        <span class="ptag">Servo</span>
+      </div>
+      <img src="smart_dustbin.png" class="project-img" alt="Smart Dustbin">
+      <p class="project-desc">
+        Touch-free dustbin that automatically opens its lid when hands
+        approach, using an ultrasonic sensor and servo motor for
+        hygienic, hands-free operation.
+      </p>
+      <div class="project-links">
+        <a href="Smart_Dustbin_Project.pdf" download class="plink green">📄 PDF</a>
+        <a href="https://1drv.ms/f/c/6c64a13747189eff/IgAo43cOTgzwS50f4JP4ZUKnAZuGzzMhV5MrLrL41R41744?e=K0DgAR" target="_blank" class="plink blue">💻 Code</a>
+      </div>
+    </div>
+
+    <!-- AGRICULTURE ROBOT -->
+    <div class="project-card featured">
+      <div>
+        <div class="project-num">07</div>
+        <div class="project-title">🚜 Multipurpose Agriculture Robot</div>
+        <div class="project-tags">
+          <span class="ptag">Robotics</span>
+          <span class="ptag">Arduino</span>
+          <span class="ptag">Smart Farming</span>
+          <span class="ptag">Automation</span>
+        </div>
+        <p class="project-desc">
+          Smart farming robot that performs seed sowing, watering, and
+          pesticide spraying automatically. A complete agricultural
+          automation system designed to reduce manual labour and
+          increase efficiency in farming operations.
+        </p>
+        <div class="project-links">
+          <a href="Multipurpose Agriculture Robot.pdf" download class="plink green">📄 Download PDF</a>
+        </div>
+      </div>
+      <div>
+        <img src="agri1.png" class="project-img" alt="Agriculture Robot">
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TICKER -->
+  <div class="ticker-row reveal">
+    <div class="ticker-box">
+      <div class="ticker-icon">⚡</div>
+      <div class="ticker-label">Arduino Based</div>
+    </div>
+    <div class="ticker-box">
+      <div class="ticker-icon">🌐</div>
+      <div class="ticker-label">Open Source</div>
+    </div>
+    <div class="ticker-box">
+      <div class="ticker-icon">📹</div>
+      <div class="ticker-label">Video Tutorials</div>
+    </div>
+    <div class="ticker-box">
+      <div class="ticker-icon">🚀</div>
+      <div class="ticker-label">New Monthly</div>
+    </div>
+    <div class="ticker-box">
+      <div class="ticker-icon">🤖</div>
+      <div class="ticker-label">AI Powered</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Tech<span>Robotics</span>-AR</div>
+      <div class="footer-tagline">BUILDING THE FUTURE, ONE PROJECT AT A TIME</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://youtube.com/@techrobotics-ar" target="_blank" class="footer-link">▶ YouTube</a>
+      <a href="https://github.com/abhiraj23350-droid" target="_blank" class="footer-link">💻 GitHub</a>
+      <a href="https://www.linkedin.com/in/techrobotics-ar-969489399" target="_blank" class="footer-link">🔗 LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-copy">© 2025 TechRobotics-AR — ABHI RAJ — ALL RIGHTS RESERVED</div>
+</footer>
+
 <script>
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    }
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const trail = document.getElementById('cursorTrail');
+  let mx = 0, my = 0, tx = 0, ty = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
   });
-}, { threshold: 0.15 });
 
-document.querySelectorAll(".glass").forEach(el => {
-  observer.observe(el);
-});
+  function animateTrail() {
+    tx += (mx - tx) * 0.12;
+    ty += (my - ty) * 0.12;
+    trail.style.left = tx + 'px';
+    trail.style.top = ty + 'px';
+    requestAnimationFrame(animateTrail);
+  }
+  animateTrail();
+
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '20px';
+      cursor.style.height = '20px';
+      trail.style.width = '56px';
+      trail.style.height = '56px';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '12px';
+      cursor.style.height = '12px';
+      trail.style.width = '36px';
+      trail.style.height = '36px';
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Project cards reveal
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }, 80 * (i % 3));
+      }
+    });
+  }, { threshold: 0.05 });
+
+  document.querySelectorAll('.project-card, .brainfly-card').forEach(card => {
+    card.style.opacity = '0';
+    card.style.transform = 'translateY(30px)';
+    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease, background 0.4s';
+    cardObserver.observe(card);
+  });
+
+  // Ticker boxes
+  document.querySelectorAll('.ticker-box').forEach((box, i) => {
+    box.style.opacity = '0';
+    box.style.transform = 'translateY(20px)';
+    box.style.transition = `opacity 0.5s ${i * 0.1}s ease, transform 0.5s ${i * 0.1}s ease, all 0.3s`;
+    const tickObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          box.style.opacity = '1';
+          box.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.2 });
+    tickObs.observe(box);
+  });
 </script>
-
 </body>
 </html>
